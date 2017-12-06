@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import numpy as np
 from sklearn.preprocessing import normalize
+
 def readimg(imglist,num_pic):
 	path="AR\\"+imglist[0]
 	img=Image.open(path)
