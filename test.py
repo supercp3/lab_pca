@@ -1,0 +1,26 @@
+import numpy as np 
+'''
+x=np.array([[1,2,3],[2,3,4]])
+y=np.array([1,1])
+y=y.reshape(2,1)
+z=x-y
+w=np.mean(x,axis=1)
+print(x.shape[1])
+P=(1/x.shape[1])*np.dot(x,x.T)
+print(x)
+print(y)
+print(z)
+print(w)
+print(x.T)
+print(P)
+print(20*"#")
+b=[3,7,4,5,8,10]
+a=np.argsort(b)
+print(a)
+'''
+print(20*"%%")
+A=np.array([[1,2],[3,4]])
+print(A)
+e_value,e_vector=np.linalg.eig(A)
+print(e_value)
+print(np.round(e_value))
