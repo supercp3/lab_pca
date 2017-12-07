@@ -27,30 +27,51 @@ def PCA(X,d):
 	e_value,e_vector=np.linalg.eig(E)
 	sorted_indices = np.argsort(e_value)
 	top_evector = e_vector[:,sorted_indices[:-d-1:-1]]
+	core=sum(sorted(e_value)[:-d-1:-1])/sum(e_value)#
+	print(core)
 	W = normalize(top_evector)
-	print(W.shape)
 	return W
-
-def rebuild(X,W,X_col):
+#重构图像
+def reBuild(X,W,X_col):
 	X0=np.mean(X,axis=1)
 	d=W.shape[1]
 	s=0
+	#Y(dx1)=W[:,i]*(X[:,X_col-1]-X0
 	for i in range(d):
-		s+=sum(W[:,i]*(X[:,X_col-1]-X0))*W[:,i]
+		s+=sum(W[:,i]*(X[:,X_col]-X0))*W[:,i]
 	return s+X0;
 
-def reShow(imglist,d,x_col,N):
-	X=readimg(imglist,N)
-	W=PCA(X,d)
-	Y=rebuild(X,W,x_col)
-	Y=Y.reshape(50,40)
-	image=Image.fromarray(Y)
+def reShow(Y):
+	Z=Y.reshape(50,40)
+	image=Image.fromarray(Z)
 	image.show()
+
+def reBuild_error(img_orign,img_rebuild):
+	n=img_orign.shape[0]
+	sx=0
+	for i in range(n):
+		sx+=np.square(img_orign[i]-img_rebuild[i])
+	res=np.sqrt(sx)
+	return res
+
 
 if __name__=="__main__":
 	imglist=[]
+	#imglist存储所有图片的名称
 	for filename in os.listdir(r"AR"):
 		imglist.append(filename)
-#imglist存储图片的名称，150表示要降到的维数，2表示第2列，30是学习的图片数目
-	reShow(imglist,150,2,30)
+	#d降维后的维度，x_col降维的图片，N学习的图片数量
+	d,x_col,N=1500,0,30
+	img_matrix=readimg(imglist,N)
+	W_img=PCA(img_matrix,d)
+	#重建后的图像
+	img_rebuild=reBuild(img_matrix,W_img,x_col)
+	reShow(img_rebuild)
+	#原始图像
+	img_orign=img_matrix[:,x_col-1]
+	#计算重建误差
+	results=reBuild_error(img_orign,img_rebuild)
+	print("重建误差为：\n",results)
+
+
 
