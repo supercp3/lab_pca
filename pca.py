@@ -21,14 +21,14 @@ def readimg(imglist,num_pic):
 def PCA(X,d):
 	x0=np.mean(X,axis=1)
 	x1=X-x0.reshape((2000,1))
-	print(x1.shape)
+#	print(x1.shape)
 	m=x1.shape[1]
 	E=(1/m)*np.dot(x1,x1.T)
 	e_value,e_vector=np.linalg.eig(E)
 	sorted_indices = np.argsort(e_value)
 	top_evector = e_vector[:,sorted_indices[:-d-1:-1]]
 	core=sum(sorted(e_value)[:-d-1:-1])/sum(e_value)#
-	print(core)
+#	print(core)
 	W = normalize(top_evector)
 	return W
 #重构图像
